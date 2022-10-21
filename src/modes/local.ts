@@ -3,7 +3,7 @@ import { extname } from 'path';
 import sharp from 'sharp';
 import prompts from 'prompts';
 
-const globalDir = `${__dirname}/../../`;
+const globalDir = process.env.PROD ? `${__dirname}/../../` : process.cwd();
 const options = {
   imageFormats: ['.jpg', '.png'],
   deepSearch: false,

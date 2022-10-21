@@ -1,4 +1,7 @@
 {
+  "name": "webpizi",
+  "version": "1.0.0",
+  "description": "webpizi parse all your images into webp format",
   "devDependencies": {
     "@types/node": "^18.6.2",
     "@types/prompts": "^2.4.1",
@@ -19,7 +22,7 @@
   },
   "main": "src/index.ts",
   "bin": {
-    "webpizi": "src/index.js"
+    "webpizi": "bin/index.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.192.0",

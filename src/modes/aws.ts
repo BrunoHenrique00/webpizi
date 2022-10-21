@@ -1,8 +1,10 @@
 import { S3 } from '@aws-sdk/client-s3';
 import { fromIni } from '@aws-sdk/credential-providers';
-import { writeFileSync } from 'fs';
+import { extname } from 'path';
 import prompts from 'prompts';
 import awsRegions from '../constants/aws-regions';
+import imageFormats from '../constants/imageFormats';
+import toWebP from '../utils/toWebP';
 
 export default async function parseAws() {
   const { region } = await prompts({
@@ -36,16 +38,38 @@ export default async function parseAws() {
 
   try {
     const files = await client.listObjects({ Bucket: bucket });
-    const promises = files.Contents?.map(async file => {
+
+    if (!files.Contents) {
+      console.log(`There is no files on: ${bucket}`);
+      return;
+    }
+
+    const filesFiltered = files.Contents.filter(file => {
+      const fileExtension = extname(file.Key || '');
+      return imageFormats.includes(fileExtension);
+    });
+
+    console.log(`Found ${filesFiltered.length} images to parse.`);
+
+    const promises = filesFiltered.map(async (file, index) => {
       const { Body } = await client.getObject({
         Bucket: bucket,
         Key: file.Key,
       });
 
       if (Body) {
-        const buffer = Buffer.concat([await Body.transformToByteArray()]);
-
-        writeFileSync(`${__dirname}/../../test/aws-${file.Key}`, buffer);
+        const buffer = await Body.transformToByteArray();
+        toWebP({
+          buffer,
+          onData: async data => {
+            await client.putObject({
+              Bucket: bucket,
+              Key: `${file.Key}`,
+              Body: data,
+            });
+            console.log(`${index + 1} Images parsed.`);
+          },
+        });
       }
     });
 
