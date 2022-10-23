@@ -59,6 +59,8 @@ Once you accept this option, this mean that any folder inside the directory you 
 │   ├── css
 │   │   ├── **/*.css
 │   ├── images
+│   │   ├── pig.png
+│   │   ├── lion.png
 │   ├── js
 │   ├── index.html
 ```
