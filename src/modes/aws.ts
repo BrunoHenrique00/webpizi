@@ -7,19 +7,27 @@ import imageFormats from '../constants/imageFormats';
 import toWebP from '../utils/toWebP';
 
 export default async function parseAws() {
-  const { region } = await prompts({
-    type: 'autocomplete',
-    name: 'region',
-    message: 'Choose a region!',
-    choices: awsRegions.map(_region => ({
-      title: _region,
-      value: _region,
-    })),
-  });
+  const { region, profile } = await prompts([
+    {
+      type: 'autocomplete',
+      name: 'region',
+      message: 'Choose a region!',
+      choices: awsRegions.map(_region => ({
+        title: _region,
+        value: _region,
+      })),
+    },
+    {
+      type: 'text',
+      name: 'profile',
+      message:
+        'Type the AWS profile you want to use. Pick one that is configured on .aws/credentials',
+    },
+  ]);
 
   const client = new S3({
     region,
-    credentials: fromIni({ profile: 'bruno' }),
+    credentials: fromIni({ profile }),
   });
   const { Buckets } = await client.listBuckets({});
   if (!Buckets) {

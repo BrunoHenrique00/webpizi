@@ -3,7 +3,7 @@ import { extname } from 'path';
 import sharp from 'sharp';
 import prompts from 'prompts';
 
-const globalDir = process.env.PROD ? `${__dirname}/../../` : process.cwd();
+const globalDir = process.env.TEST ? `${__dirname}/../../` : process.cwd();
 const options = {
   imageFormats: ['.jpg', '.png'],
   deepSearch: false,
@@ -36,8 +36,7 @@ const getAllImages = async (path: string) => {
             fileExtension,
             '',
           )}.webp`;
-          // console.log(`global: ${globalDir}/${path}/${file}`);
-          // console.log('Path ', pathToSave);
+
           sharp(`${globalDir}/${path}/${file}`)
             .toFile(pathToSave)
             .then(() => resolve(true));

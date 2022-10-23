@@ -1,3 +1,3 @@
-const imageFormats = ['.jpg', '.png'];
+const imageFormats = ['.jpg', '.png', '.jpeg'];
 
 export default imageFormats;

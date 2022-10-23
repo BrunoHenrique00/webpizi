@@ -1,7 +1,11 @@
 {
   "name": "webpizi",
   "version": "1.0.0",
-  "description": "webpizi parse all your images into webp format",
+  "description": "webpizi parse all your images into webp.",
+  "repository": {
+    "url": "https://github.com/BrunoHenrique00/webpizi.git",
+    "type": "git"
+  },
   "devDependencies": {
     "@types/node": "^18.6.2",
     "@types/prompts": "^2.4.1",

@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import prompts from 'prompts';
 import parseAws from './modes/aws';
 import parseLocal from './modes/local';
